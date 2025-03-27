@@ -1,2 +1,90 @@
-index.html
-<link rel="stylesheet" href="style.css">
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>testy kart</title>
+    <style>
+        *{
+            font-size: 30px;
+        }
+        button{
+            height: 50px;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <p>twoj wynik: <span id="wynik_gracza"></span></p>
+    <p id="gracz"></p>
+    <p>wynik kurpiera: <span id="wynik_krupiera"></span></p>
+    <p id="krupier"></p>
+    <p id="test"></p>
+    <button type="button" onclick="deal2(potasowana)">rozdaj</button>
+    <button type="button" onclick="daj(potasowana)">daj</button>
+    <button type="button" onclick="">test</button>
+    <button type="button" onclick="test(potasowana)">test</button> <!--TEST USUNĄĆ PÓŹNIEJ-->
+    <script>
+        let p = document.getElementById("krupier")
+        let k = document.getElementById("gracz")
+        let q = document.getElementById("wynik_gracza")
+        let d = document.getElementById("wynik_krupiera")
+        let talia = ['aw','ar','ac','ad','2w','2r','2c','2d','3w','3r','3c','3d','4w','4r','4c','4d','5w','5r','5c','5d','6w','6r','6c','6d','7w','7r','7c','7d','8w','8r','8c','8d','9w','9r','9c','9d','10w','10r','10c','10d','jw','jr','jc','jd','qw','qr','qc','qd','kw','kr','kc'];
+        function tasowanie(array) { //tasuje talie
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        let potasowana = tasowanie(talia) //definuje potasowaną talie
+        function deal2(potasowana){ //rozdaje po 2 karty graczom
+            let kartyg = k.innerHTML = potasowana[0] +' '+ potasowana[2]
+            let kartyk = p.innerHTML = potasowana[1] +' '+ potasowana[3]
+            potasowana.shift()
+            potasowana.shift()
+            potasowana.shift()
+            potasowana.shift()
+            wynik(potasowana, kartyg, kartyk)
+        }
+        function daj(potasowana){ //dodaje jedną karte dla gracza
+            let kartyg = k.innerHTML += " "+potasowana[0]
+            potasowana.shift()
+            wynik(potasowana, kartyg)
+        }
+        function wynik(potasowanam, k, p){ //oblicza wynik graczy obu
+            q.innerHTML = ""
+            d.innerHTML = ""
+            let wynikg = 0
+            let wynikk = 0
+            let tabelawynikug = k.split(" ")
+            let tabelawynikuk = p.split(" ")
+            for(let i = 0; i < tabelawynikug.length; i++){ //wynik gracza
+                if(tabelawynikug[i][0] === "j" || tabelawynikug[i][0] === "q" || tabelawynikug[i][0] === "k" || tabelawynikug[i][0] === "1"){
+                    wynikg = wynikg + 10
+                }else if(tabelawynikug[i][0] === "a"){
+                    wynikg = wynikg + 11
+                }else{
+                    wynikg = wynikg + parseInt(tabelawynikug[i][0])
+                }
+                
+            }
+            for(let j = 0; j < tabelawynikuk.length; j++){ //wynik krupiera
+                if(tabelawynikuk[j][0] === "j" || tabelawynikuk[j][0] === "q" || tabelawynikuk[j][0] === "k" || tabelawynikuk[j][0] === "1"){
+                    wynikk = wynikk + 10
+                }else if(tabelawynikuk[j][0] === "a"){
+                    wynikk = wynikk + 11
+                }else{
+                    wynikk = wynikk + parseInt(tabelawynikuk[j][0])
+                }
+                
+            }
+            q.innerHTML = wynikg
+            d.innerHTML = wynikk
+        }
+        function test(potasowana){ //TEST USUNĄĆ PÓŻNIEJ
+            document.getElementById("test").innerHTML = potasowana
+        }
+    </script>
+</body>
+</html>
