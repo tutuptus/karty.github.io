@@ -53,15 +53,17 @@
             potasowana.shift()
             wynik(potasowana, kartyg, kartyk)
         }
-        // function zostan(potasowana){
-        //     wynikk = d.innerHTML
-        //     while(parseFloat(wynikk) = 17){
-        //         kartyk = p.innerHTML += " "+potasowana[0]
-        //         potasowana.shift()
-        //     }
-        //     kartyg = k.innerHTML
-        //     wynik(potasowana, kartyg, kartyk)
-        // }
+        function zostan(potasowana){
+            let wynikk = parseFloat(d.innerHTML)
+            let test = document.getElementById("test")
+            for(let i = parseFloat(d.innerHTML); i < 17; i++){
+                kartyk = p.innerHTML += " "+potasowana[0]
+                potasowana.shift()
+                kartyg = k.innerHTML
+                wynik(potasowana, kartyg, kartyk)
+                i = parseFloat(d.innerHTML)
+            }
+        }
         function wynik(potasowanam, kartyg, kartyk){ //oblicza wynik graczy obu
             q.innerHTML = ""
             d.innerHTML = ""
