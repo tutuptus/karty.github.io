@@ -22,7 +22,7 @@
     <p id="test"></p>
     <button type="button" onclick="deal2(potasowana)">rozdaj</button>
     <button type="button" onclick="daj(potasowana)">daj</button>
-    <button type="button" onclick="">test</button>
+    <button type="button" onclick="zostan(potasowana)">zostań</button>
     <button type="button" onclick="test(potasowana)">test</button> <!--TEST USUNĄĆ PÓŹNIEJ-->
     <script>
         let p = document.getElementById("krupier")
@@ -38,37 +38,52 @@
             return array;
         }
         let potasowana = tasowanie(talia) //definuje potasowaną talie
-        function deal2(potasowana){ //rozdaje po 2 karty graczom
-            let kartyg = k.innerHTML = potasowana[0] +' '+ potasowana[2]
-            let kartyk = p.innerHTML = potasowana[1] +' '+ potasowana[3]
+        function deal2(potasowana, kartyk, kartyg){ //rozdaje po 2 karty graczom
+            kartyg = k.innerHTML = potasowana[0] +' '+ potasowana[2]
+            kartyk = p.innerHTML = potasowana[1] +' '+ potasowana[3]
             potasowana.shift()
             potasowana.shift()
             potasowana.shift()
             potasowana.shift()
             wynik(potasowana, kartyg, kartyk)
         }
-        function daj(potasowana){ //dodaje jedną karte dla gracza
-            let kartyg = k.innerHTML += " "+potasowana[0]
+        function daj(potasowana, kartyg){ //dodaje jedną karte dla gracza
+            kartyg = k.innerHTML += " "+potasowana[0]
+            kartyk = p.innerHTML
             potasowana.shift()
-            wynik(potasowana, kartyg)
+            wynik(potasowana, kartyg, kartyk)
         }
-        function wynik(potasowanam, k, p){ //oblicza wynik graczy obu
+        // function zostan(potasowana){
+        //     wynikk = d.innerHTML
+        //     while(parseFloat(wynikk) = 17){
+        //         kartyk = p.innerHTML += " "+potasowana[0]
+        //         potasowana.shift()
+        //     }
+        //     kartyg = k.innerHTML
+        //     wynik(potasowana, kartyg, kartyk)
+        // }
+        function wynik(potasowanam, kartyg, kartyk){ //oblicza wynik graczy obu
             q.innerHTML = ""
             d.innerHTML = ""
             let wynikg = 0
             let wynikk = 0
-            let tabelawynikug = k.split(" ")
-            let tabelawynikuk = p.split(" ")
+            let tabelawynikug = kartyg.split(" ")
+            let tabelawynikuk = kartyk.split(" ")
             for(let i = 0; i < tabelawynikug.length; i++){ //wynik gracza
                 if(tabelawynikug[i][0] === "j" || tabelawynikug[i][0] === "q" || tabelawynikug[i][0] === "k" || tabelawynikug[i][0] === "1"){
                     wynikg = wynikg + 10
                 }else if(tabelawynikug[i][0] === "a"){
-                    wynikg = wynikg + 11
+                        wynikg = wynikg + 11
                 }else{
                     wynikg = wynikg + parseInt(tabelawynikug[i][0])
-                }
-                
+                }              
             }
+            for(let k = 0; k < tabelawynikug.length; k++){
+                    if(tabelawynikug[k][0] === "a" && wynikg > 21){
+                        wynikg = wynikg - 10
+                    }
+            }
+
             for(let j = 0; j < tabelawynikuk.length; j++){ //wynik krupiera
                 if(tabelawynikuk[j][0] === "j" || tabelawynikuk[j][0] === "q" || tabelawynikuk[j][0] === "k" || tabelawynikuk[j][0] === "1"){
                     wynikk = wynikk + 10
@@ -79,9 +94,17 @@
                 }
                 
             }
+            for(let u = 0; u < tabelawynikuk.length; u++){
+                    if(tabelawynikuk[u][0] === "a" && wynikk > 21){
+                        wynikk = wynikk - 10
+                    }
+            }
+
             q.innerHTML = wynikg
             d.innerHTML = wynikk
+            return{}
         }
+
         function test(potasowana){ //TEST USUNĄĆ PÓŻNIEJ
             document.getElementById("test").innerHTML = potasowana
         }
