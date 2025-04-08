@@ -18,17 +18,20 @@
     <p>twoj wynik: <span id="wynik_gracza"></span></p>
     <p id="gracz"></p>
     <p>wynik kurpiera: <span id="wynik_krupiera"></span></p>
-    <p id="krupier"></p>
+    <p id="krupier"></p><span id="krupier2"></span>
     <p id="test"></p>
     <button type="button" onclick="deal2(potasowana)">rozdaj</button>
-    <button type="button" onclick="daj(potasowana)">daj</button>
-    <button type="button" onclick="zostan(potasowana)">zostań</button>
+    <button type="button" id="daj" onclick="daj(potasowana)">daj</button>
+    <button type="button" id="zostan" onclick="zostan(potasowana)">zostań</button>
     <button type="button" onclick="test(potasowana)">test</button> <!--TEST USUNĄĆ PÓŹNIEJ-->
     <script>
         let p = document.getElementById("krupier")
         let k = document.getElementById("gracz")
         let q = document.getElementById("wynik_gracza")
         let d = document.getElementById("wynik_krupiera")
+        let w = document.getElementById("krupier2")
+        let y = document.getElementById("daj")
+        let u = document.getElementById("zostan")
         let talia = ['aw','ar','ac','ad','2w','2r','2c','2d','3w','3r','3c','3d','4w','4r','4c','4d','5w','5r','5c','5d','6w','6r','6c','6d','7w','7r','7c','7d','8w','8r','8c','8d','9w','9r','9c','9d','10w','10r','10c','10d','jw','jr','jc','jd','qw','qr','qc','qd','kw','kr','kc'];
         function tasowanie(array) { //tasuje talie
             for (let i = array.length - 1; i > 0; i--) {
@@ -38,9 +41,14 @@
             return array;
         }
         let potasowana = tasowanie(talia) //definuje potasowaną talie
-        function deal2(potasowana, kartyk, kartyg){ //rozdaje po 2 karty graczom
+        function deal2(potasowana){ //rozdaje po 2 karty graczom
+            document.getElementById("test").innerHTML = ""
+            y.disabled = false
+            u.disabled = false
             kartyg = k.innerHTML = potasowana[0] +' '+ potasowana[2]
-            kartyk = p.innerHTML = potasowana[1] +' '+ potasowana[3]
+            kartyk = p.innerHTML = potasowana[1]
+            kartyk2 = w.innerHTML = potasowana[3]
+            w.style.visibility = "hidden"
             potasowana.shift()
             potasowana.shift()
             potasowana.shift()
@@ -51,18 +59,22 @@
             kartyg = k.innerHTML += " "+potasowana[0]
             kartyk = p.innerHTML
             potasowana.shift()
-            wynik(potasowana, kartyg, kartyk)
+            wynik(potasowana, kartyg, kartyk) 
         }
         function zostan(potasowana){
+            p.innerHTML += ' '+ w.innerHTML
+            w.innerHTML = ''
             let wynikk = parseFloat(d.innerHTML)
             let test = document.getElementById("test")
-            for(let i = parseFloat(d.innerHTML); i < 17; i++){
+            w.style.visibility = "visible"
+            for(let i = parseFloat(d.innerHTML); i <= 17; i++){
                 kartyk = p.innerHTML += " "+potasowana[0]
                 potasowana.shift()
                 kartyg = k.innerHTML
                 wynik(potasowana, kartyg, kartyk)
                 i = parseFloat(d.innerHTML)
             }
+            // wig()
         }
         function wynik(potasowanam, kartyg, kartyk){ //oblicza wynik graczy obu
             q.innerHTML = ""
@@ -101,12 +113,23 @@
                         wynikk = wynikk - 10
                     }
             }
-
+            
             q.innerHTML = wynikg
             d.innerHTML = wynikk
-            return{}
+            if(wynikg === 21 || wynikk > 21 || wynikg > wynikk && wynikk >= 17 && wynikg <= 21){
+                document.getElementById("test").innerHTML = "let's go gambling"
+                y.disabled = true
+                u.disabled = true
+            }else if(wynikg > 21 || wynikg < wynikk && wynikk >= 17 || wynikk === 21){
+                document.getElementById("test").innerHTML = "oh dang it"
+                y.disabled = true
+                u.disabled = true
+            }else if(wynikg === wynikk && wynikk >= 17){
+                document.getElementById("test").innerHTML = "remis"
+                y.disabled = true
+                u.disabled = true
+            }
         }
-
         function test(potasowana){ //TEST USUNĄĆ PÓŻNIEJ
             document.getElementById("test").innerHTML = potasowana
         }
